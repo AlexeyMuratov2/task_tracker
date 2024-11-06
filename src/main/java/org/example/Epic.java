@@ -20,20 +20,20 @@ public class Epic extends Task {
         int inProgressCount = 0;
         int doneCount = 0;
         for (Subtask task : subtasks) {
-            if (task.getStatus().equals("NEW")) {
+            if (task.getStatus() == Status.NEW) {
                 newCount += 1;
-            } else if (task.getStatus().equals("IN_PROGRESS")) {
+            } else if (task.getStatus() == Status.IN_PROGRESS) {
                 inProgressCount += 1;
             } else {
                 doneCount += 1;
             }
         }
         if (newCount == subtasks.size()) {
-            this.setStatus("NEW");
+            this.setStatus(Status.NEW);
         } else if (inProgressCount == subtasks.size() || newCount == 0) {
-            this.setStatus("IN_PROGRESS");
+            this.setStatus(Status.IN_PROGRESS);
         } else if (doneCount == subtasks.size()){
-            this.setStatus("DONE");
+            this.setStatus(Status.DONE);
         }
     }
     public List<Subtask> getSubtasks(){
