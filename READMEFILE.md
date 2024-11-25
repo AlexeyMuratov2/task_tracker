@@ -42,7 +42,7 @@ id,type,name,status,description,epic
 - Создайте enum с типами задач.
 - Напишите метод сохранения задачи в строку String toString(Task task) или переопределите базовый.
 - Напишите метод создания задачи из строки Task fromString(String value).
-- Напишите статические методы static String historyToString(HistoryManager manager) и static List<Integer> historyFromString(String value) для сохранения и восстановления менеджера истории из CSV.
+- Напишите статические методы static String historyToString(HistoryManager org.example.manager) и static List<Integer> historyFromString(String value) для сохранения и восстановления менеджера истории из CSV.
 ## Как прочитать файл
 
 В Java есть несколько способов чтения файлов. Вы можете использовать такой:

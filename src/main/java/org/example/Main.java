@@ -1,38 +1,35 @@
 package org.example;
 
+import org.example.Tasks.Epic;
+import org.example.Tasks.Subtask;
+import org.example.Tasks.Task;
+import org.example.exceptions.ManagerSaveException;
+import org.example.manager.*;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
-        TaskManager manager = Managers.getDefault();
-        manager.createNewTask(new Task(0, "Wake up", "wake up at 6:00"));
-        manager.createNewTask(new Epic(1, "cook breakfast", "cook scramble eggs"));
-        manager.createNewTask(new Epic(2, "go to work"));
-        manager.createNewTask(new Subtask(3, "get a shower", manager.getByID(2)));
-        manager.createNewTask(new Subtask(4, "eat", manager.getByID(2)));
-        manager.createNewTask(new Subtask(5, "dress up", manager.getByID(2)));
+    public static void main(String[] args) throws IOException {
+        FileBackedTasksManager manager = Managers.getBacked();
+        HistoryManager historyManager = manager.getHistoryManager();
+        manager.loadFromFile("data.csv");
 
+        manager.createNewTask(new Task(4,"Task1", Status.NEW, "first task"));
+        manager.createNewTask(new Epic(5,"Epic1", "Description epic1"));
+        manager.createNewTask(new Subtask(6,"Subtask1", Status.NEW, "subtask", manager.getByID(5)));
 
-        manager.getByID(1);
-        List<Task> history = manager.getTaskHistory();
-        for (int i = history.size() - 1; i >= 0; i--) {
-            System.out.println((history.size() - i) + ": " + history.get(i).getName());
-        }
-        System.out.println("");
-        manager.getByID(1);
+        manager.getByID(4);
         manager.getByID(2);
-        history = manager.getTaskHistory();
-        for (int i = history.size() - 1; i >= 0; i--) {
-            System.out.println((history.size() - i) + ": " + history.get(i).getName());
-        }
-        System.out.println("");
-        manager.getByID(3);
-        manager.getByID(5);
-        manager.getByID(5);
-        history = manager.getTaskHistory();
-        for (int i = history.size() - 1; i >= 0; i--) {
-            System.out.println((history.size() - i) + ": " + history.get(i).getName());
-        }
-        System.out.println("");
+
+        System.out.println("Loaded tasks: " + manager.getTaskData());
+        System.out.println("Loaded epics: " + manager.getEpicData());
+        System.out.println("Loaded subtask: " + manager.getSubtaskData());
+
+
+        manager.updateStatus(manager.getByID(6), Status.IN_PROGRESS);
+
+
     }
 }

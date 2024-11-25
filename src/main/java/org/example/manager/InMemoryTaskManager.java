@@ -1,19 +1,24 @@
-package org.example;
+package org.example.manager;
 
+
+import org.example.Tasks.Epic;
+import org.example.Status;
+import org.example.Tasks.Subtask;
+import org.example.Tasks.Task;
+import org.example.exceptions.ManagerSaveException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final HashMap<Integer, Task> taskData = new HashMap<>();
-    private final HashMap<Integer, Task> epicData = new HashMap<>();
-    private final HashMap<Integer, Task> subtaskData = new HashMap<>();
-    private final HistoryManager history = Managers.getDefaultHistory();
+    protected final HashMap<Integer, Task> taskData = new HashMap<>();
+    protected final HashMap<Integer, Epic> epicData = new HashMap<>();
+    protected final HashMap<Integer, Subtask> subtaskData = new HashMap<>();
+    protected final HistoryManager history = Managers.getDefaultHistory();
 
     @Override
-    public void deleteData() {
+    public void deleteData() throws ManagerSaveException {
         taskData.clear();
         epicData.clear();
         subtaskData.clear();
@@ -42,24 +47,24 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void createNewTask(Task task) {
+    public void createNewTask(Task task) throws ManagerSaveException {
         if (task instanceof Subtask subtask) {
             Epic epic = (Epic) subtask.getEpic();
             epic.updateSubtasks(subtask);
-            subtaskData.put(task.getId(), task);
+            subtaskData.put(task.getId(), (Subtask) task);
         } else if (task instanceof Epic) {
-            epicData.put(task.getId(), task);
+            epicData.put(task.getId(), (Epic) task);
         } else {
             taskData.put(task.getId(), task);
         }
     }
 
     @Override
-    public void updateTask(Task task) {
+    public void updateTask(Task task) throws ManagerSaveException {
         if (task instanceof Subtask) {
-            subtaskData.put(task.getId(), task);
+            subtaskData.put(task.getId(), (Subtask) task);
         } else if (task instanceof Epic) {
-            epicData.put(task.getId(), task);
+            epicData.put(task.getId(), (Epic) task);
         } else {
             taskData.put(task.getId(), task);
         }
@@ -77,7 +82,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateStatus(Task task, Status newStatus) {
+    public void updateStatus(Task task, Status newStatus) throws ManagerSaveException {
         task.setStatus(newStatus);
         if (task instanceof Subtask) {
             Epic buffer = (Epic) ((Subtask) task).getEpic();
@@ -86,7 +91,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteTask(int id) {
+    public void deleteTask(int id) throws ManagerSaveException {
         if (taskData.containsKey(id)) {
             taskData.remove(id);
         }
@@ -103,7 +108,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public HashMap<Integer, Task> getEpicData() {
+    public HashMap<Integer, Epic> getEpicData() {
         return epicData;
     }
 
@@ -113,7 +118,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public HashMap<Integer, Task> getSubtaskData() {
+    public HashMap<Integer, Subtask> getSubtaskData() {
         return subtaskData;
+    }
+
+    public HistoryManager getHistoryManager(){
+        return history;
     }
 }

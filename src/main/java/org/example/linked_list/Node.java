@@ -1,4 +1,6 @@
-package org.example;
+package org.example.linked_list;
+
+import org.example.Tasks.Task;
 
 public class Node {
     private Task data;

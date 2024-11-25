@@ -1,11 +1,14 @@
-package org.example;
+package org.example.manager;
 
-import java.util.ArrayList;
+import org.example.linked_list.CustomLinkedList;
+import org.example.linked_list.Node;
+import org.example.Tasks.Task;
+
 import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager{
-    private HashMap<Integer, Node> history = new HashMap<Integer, Node>();
+    private HashMap<Integer, Node> history = new HashMap<>();
     private CustomLinkedList data = new CustomLinkedList();
 
     @Override
@@ -27,6 +30,9 @@ public class InMemoryHistoryManager implements HistoryManager{
     }
 
     public List<Task> getHistory() {
-        return data.getTasks();
+        return history.values().stream()
+                .map(node -> node.getData())
+                .toList();
     }
+
 }

@@ -1,4 +1,6 @@
-package org.example;
+package org.example.linked_list;
+
+import org.example.Tasks.Task;
 
 import java.util.ArrayList;
 
@@ -21,16 +23,6 @@ public class CustomLinkedList {
             newNode.setPref(tail);
             tail = newNode;
         }
-    }
-
-    public ArrayList<Task> getTasks() {
-        ArrayList<Task> ans = new ArrayList<>();
-        Node cur = head;
-        while (cur != null) {
-            ans.add(cur.getData());
-            cur = cur.getNext();
-        }
-        return ans;
     }
 
     public void removeNode(Node node) {

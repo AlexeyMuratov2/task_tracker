@@ -1,7 +1,7 @@
-package org.example;
+package org.example.Tasks;
 
 
-import java.util.Arrays;
+import org.example.Status;
 
 public class Task {
     private final int id;
@@ -21,6 +21,13 @@ public class Task {
         this.description = "";
         this.id = id;
         this.status = Status.NEW;
+    }
+
+    public Task(int id, String name, Status status, String description){
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = status;
     }
 
     public void setStatus(Status status) {

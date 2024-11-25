@@ -1,5 +1,7 @@
-package org.example;
+package org.example.Tasks;
 
+
+import org.example.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,10 @@ public class Epic extends Task {
 
     public Epic(int id, String name) {
         super(id, name);
+    }
+
+    public Epic(int id, String name, Status status, String description){
+        super(id, name, status, description);
     }
 
     public void updateEpicStatus() {
